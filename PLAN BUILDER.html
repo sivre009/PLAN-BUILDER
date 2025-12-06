@@ -40,10 +40,18 @@
     </script>
 </head>
 <body>
+    <div id="fallback" style="position: fixed; inset: 0; display: grid; place-items: center; background: #09090b; color: #e5e7eb; padding: 32px; text-align: center; font-family: 'Inter', sans-serif;">
+        <div style="max-width: 720px; line-height: 1.6;">
+            <h1 style="font-size: 24px; font-weight: 700; margin-bottom: 12px;">Loading Plan Builder…</h1>
+            <p style="margin-bottom: 12px;">If you see this screen for more than a few seconds, your browser may be blocking import maps or remote scripts when opening files directly.</p>
+            <p style="margin-bottom: 12px;">Try starting a simple local server in this folder (<code>python -m http.server</code>) and visit <code>http://localhost:8000/PLAN%20BUILDER.html</code>. Make sure you are online so the CDN scripts can load.</p>
+            <p style="margin-bottom: 0;">You can also check the browser console for any errors—the app will hide this message automatically once it loads.</p>
+        </div>
+    </div>
     <div id="root"></div>
 
     <script type="text/babel" data-type="module" data-presets="react">
-        import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
         import { createRoot } from 'react-dom/client';
         import { 
             Upload, Download, Save, FolderOpen, Undo, Redo, 
@@ -1735,6 +1743,18 @@ ${showSplash ? `<div id="splash-screen"><button class="splash-btn" onclick="ente
 
         const root = createRoot(document.getElementById('root'));
         root.render(<App />);
+
+        // Hide the fallback overlay once React mounts
+        const fallback = document.getElementById('fallback');
+        if (fallback) fallback.style.display = 'none';
+
+</script>
+    <script>
+        // If the app fails to load, show a descriptive message instead of a blank screen
+        window.addEventListener('error', () => {
+            const fallback = document.getElementById('fallback');
+            if (fallback) fallback.style.display = 'grid';
+        });
     </script>
 </body>
 </html>
