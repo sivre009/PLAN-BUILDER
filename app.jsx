@@ -1690,3 +1690,7 @@ ${showSplash ? `<div id="splash-screen"><button class="splash-btn" onclick="ente
 
         const root = createRoot(document.getElementById('root'));
         root.render(<App />);
+
+        // Hide the fallback overlay once React mounts
+        const fallback = document.getElementById('fallback');
+        if (fallback) fallback.style.display = 'none';
